@@ -29,6 +29,23 @@ export async function refreshWallet() {
   if (result.error) throw new Error(result.error.message);
   return result.address;
 }
+/**
+ * Silently re-attach to a wallet this app already has access to (e.g. after a
+ * page reload). Never prompts and never throws — returns null when Freighter
+ * is unavailable, locked, or has not granted this site access yet.
+ */
+export async function restoreWallet(): Promise<string | null> {
+  try {
+    const result = await bounded(
+      getAddress(),
+      3000,
+      "Freighter did not answer.",
+    );
+    return result.error ? null : (result.address ?? null);
+  } catch {
+    return null;
+  }
+}
 export async function signPrepared(prepared: Prepared, address: string) {
   if (
     prepared.network !== "testnet" ||

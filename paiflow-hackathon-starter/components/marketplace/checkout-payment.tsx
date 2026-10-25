@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { BrowserRequestError, browserRequest } from "@/lib/browser-api";
-import { connectWallet, refreshWallet, signPrepared } from "@/lib/wallet";
+import { connectWallet, refreshWallet, restoreWallet, signPrepared } from "@/lib/wallet";
 import { assertOriginal } from "@/lib/transaction";
 import { confirmOriginal } from "@/lib/confirmation";
 import type { Prepared } from "@/lib/types";
@@ -80,6 +80,11 @@ export function CheckoutPayment({
       .catch(() => {
         if (!cancelled) setPhase("unavailable");
       });
+    // Silently re-attach to an already-authorized wallet after a reload so a
+    // refreshed checkout page does not force a fresh connection prompt.
+    restoreWallet().then((restored) => {
+      if (!cancelled && restored) setAddress(restored);
+    });
     return () => {
       cancelled = true;
       active.current?.abort();

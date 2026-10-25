@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { connectWallet } from "@/lib/wallet";
+import { useEffect, useState } from "react";
+import { connectWallet, restoreWallet } from "@/lib/wallet";
 
 function truncate(address: string) {
   return `${address.slice(0, 6)}…${address.slice(-4)}`;
@@ -10,6 +10,18 @@ export function Navbar() {
   const [address, setAddress] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+
+  // Re-attach to an already-authorized Freighter after reloads/navigation,
+  // without prompting. The user can still connect manually.
+  useEffect(() => {
+    let cancelled = false;
+    restoreWallet().then((restored) => {
+      if (!cancelled && restored) setAddress(restored);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   async function handleConnect() {
     setBusy(true);

@@ -962,6 +962,54 @@ select.sf-input {
   margin-top: 18px;
 }
 
+/* ---------- bookings list ---------- */
+.sf-bookings {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+.sf-bookings h1 {
+  margin: 0 0 6px;
+  font-size: 1.9rem;
+}
+.sf-booking-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sf-booking-row {
+  border: 1px solid var(--sf-border);
+  border-radius: 12px;
+  background: var(--sf-card-soft);
+  padding: 16px 18px;
+}
+.sf-booking-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.sf-booking-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--sf-text);
+  text-decoration: none;
+}
+.sf-booking-title:hover {
+  text-decoration: underline;
+}
+.sf-booking-amount {
+  font-weight: 600;
+  margin: 6px 0 0;
+}
+.sf-booking-row .sf-pay-hash {
+  font-size: 0.78rem;
+}
+
 /* ---------- footer ---------- */
 .sf-footer {
   border-top: 1px solid var(--sf-border);

@@ -261,6 +261,13 @@ export function getBooking(id: string): Booking | undefined {
   return bookings.get(id);
 }
 
+/** All bookings, newest first — powers the "My Bookings" demo page. */
+export function listBookings(): Booking[] {
+  return [...bookings.values()].sort((a, b) =>
+    b.createdAt.localeCompare(a.createdAt),
+  );
+}
+
 export function getAttempt(bookingId: string): PaymentAttempt | undefined {
   return attempts.get(bookingId);
 }
